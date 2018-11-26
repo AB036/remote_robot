@@ -1,4 +1,22 @@
+# Python cache
+*.pyc
 __pycache__/
-__init__.py
+
+# IDEA
 .idea/
+
+# Virtual environments
+env/
+venv/
+
+# Private environment variables
+.env
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Terminal
 nohup.out
+
+# Other
+
