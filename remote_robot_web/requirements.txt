@@ -1,1 +1,3 @@
 django
+numpy
+opencv-python
