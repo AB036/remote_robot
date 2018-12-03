@@ -9,6 +9,12 @@ __pycache__/
 env/
 venv/
 
+# Database
+#*.sqlite3
+
+# Django collected static files
+staticfiles/
+
 # Private environment variables
 .env
 
