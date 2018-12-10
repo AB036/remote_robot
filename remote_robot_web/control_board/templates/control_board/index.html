@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Remote Robot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link href="{% static 'control_board/index_rr.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+    <p class="title">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
+    <div class="columns ">
+        <div class="column is-half bandeau_video">
+            <div class="columns">
+                <div class="column is-offset-1">
+                    <div class="content">
+                        <p class="subtitle">Voici la vue de votre robot :</p>
+                    </div>
+                    <img src="{% static 'control_board/camera.jpeg' %}" height="600" width="600"/>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half bandeau_chat">
+            <div class="content">
+                <p class="subtitle">Vous pouvez chatter ici :</p>
+            </div>
+            <div class="box">
+                <iframe src="{% url 'chat' %}"
+                        width="100%"
+                        height="235" >
+                </iframe>
+            </div>
+            <form class="form" action="" method="post">
+                <div class="field">
+                    <div class="control">
+                        <input id="message" name="message" class="input is-rounded"
+                               placeholder="Ecrivez votre message ici..." type="text">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <p>On mettra les commandes ici</p>
+</body>
+</html>
