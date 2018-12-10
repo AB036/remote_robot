@@ -9,28 +9,31 @@
 </head>
 <body>
 
-    <p class="title">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
-    <div class="columns ">
+    <p class="title marge_left marge_right marge_up">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
+
+    <div class="columns marge_left marge_right">
+
         <div class="column is-half bandeau_video">
-            <div class="columns">
-                <div class="column is-offset-1">
-                    <div class="content">
-                        <p class="subtitle">Voici la vue de votre robot :</p>
-                    </div>
-                    <img src="{% static 'control_board/camera.jpeg' %}" height="600" width="600"/>
-                </div>
+
+            <div class="content">
+                <p class="subtitle">Voici la vue de votre robot :</p>
             </div>
+
+            <img src="{% static 'control_board/camera.jpeg' %}" height="600" width="600"/>
         </div>
+
         <div class="column is-half bandeau_chat">
             <div class="content">
                 <p class="subtitle">Vous pouvez chatter ici :</p>
             </div>
+
             <div class="box">
                 <iframe src="{% url 'chat' %}"
                         width="100%"
-                        height="235" >
+                        height="235">
                 </iframe>
             </div>
+
             <form class="form" action="" method="post">
                 <div class="field">
                     <div class="control">
@@ -43,7 +46,10 @@
         </div>
     </div>
 
-    <p>On mettra les commandes ici</p>
+    <div class="content marge_left">
+        <p class="subtitle">Commandes du robot :</p>
+    </div>
     {% include 'control_board/commands.html' %}
+
 </body>
 </html>

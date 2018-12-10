@@ -1,3 +1,15 @@
 .title {
     color: #800000;
 }
+
+.marge_left {
+    margin-left: 20px;
+}
+
+.marge_right {
+    margin-right: 20px;
+}
+
+.marge_up {
+    margin-top: 10px;
+}
