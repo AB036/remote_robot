@@ -1,2 +1,0 @@
-class VideoStreamReceiver:
-    pass
