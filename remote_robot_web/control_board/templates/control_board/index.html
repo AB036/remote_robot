@@ -18,8 +18,9 @@
             <div class="content">
                 <p class="subtitle">Voici la vue de votre robot :</p>
             </div>
-
-            <img src="{% static 'control_board/camera.jpeg' %}" height="600" width="600"/>
+            <div class="big_marge_left">
+                <img src="{% url 'streaming_webcam' %}" height="450" width="450"/>
+            </div>
         </div>
 
         <div class="column is-half bandeau_chat">
