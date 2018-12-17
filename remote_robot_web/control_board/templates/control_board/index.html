@@ -35,9 +35,10 @@
             </div>
 
             <form class="form" action="" method="post">
+                {% csrf_token %}
                 <div class="field">
                     <div class="control">
-                        <input id="message" name="message" class="input is-rounded"
+                        <input id="id_message" name="message" class="input is-rounded"
                                placeholder="Ecrivez votre message ici..." type="text">
                     </div>
                 </div>
