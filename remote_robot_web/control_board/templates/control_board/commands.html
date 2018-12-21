@@ -1,12 +1,21 @@
+<script>
+    function send_command(cmd) {
+        window.open("{% url 'send_command' command='up' %}");
+        $.get('send_command?command='+cmd+'/', function (data) {
+            alert("counter updated!");
+        });
+    }
+</script>
+
+<form class="form" action="" method="post">{% csrf_token %}
 <div class="columns is-multiline marge_left marge_right">
     <div class="column is-one-third">
 
     </div>
     <div class="column is-one-third">
-        <button class="button is-dark is-fullwidth is-rounded"> UP </button>
+        <button type="button" name="buttonUp" onclick="send_command('up');" class="button is-dark is-fullwidth is-rounded"> UP </button>
     </div>
     <div class="column is-one-third">
-
     </div>
     <div class="column is-one-third">
         <button class="button is-dark is-rounded is-fullwidth">LEFT</button>
@@ -18,3 +27,4 @@
         <button class="button is-dark is-rounded is-fullwidth">RIGHT</button>
     </div>
 </div>
+</form>

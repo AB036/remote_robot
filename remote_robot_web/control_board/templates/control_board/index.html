@@ -6,15 +6,12 @@
     <title>Remote Robot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link href="{% static 'control_board/index_rr.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
-
     <p class="title marge_left marge_right marge_up">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
-
     <div class="columns marge_left marge_right">
-
         <div class="column is-half bandeau_video">
-
             <div class="content">
                 <p class="subtitle">Voici la vue de votre robot :</p>
             </div>
@@ -22,7 +19,6 @@
                 <img src="{% url 'streaming_webcam' %}" height="450" width="450"/>
             </div>
         </div>
-
         <div class="column is-half bandeau_chat">
             <div class="content">
                 <p class="subtitle">Vous pouvez chatter ici :</p>
@@ -34,7 +30,6 @@
                         height="235">
                 </iframe>
             </div>
-
             <form class="form" action="" method="post">
                 {% csrf_token %}
                 <div class="field">
@@ -44,14 +39,11 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
-
     <div class="content marge_left">
         <p class="subtitle">Commandes du robot :</p>
     </div>
     {% include 'control_board/commands.html' %}
-
 </body>
 </html>
