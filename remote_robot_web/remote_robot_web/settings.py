@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'robots.apps.RobotsConfig',
+    'control_board.apps.ControlBoardConfig'
 ]
 
 MIDDLEWARE = [

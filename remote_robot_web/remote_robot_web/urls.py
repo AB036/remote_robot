@@ -15,16 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from control_board import views
 from django.conf.urls import url
-
 from django.views.generic import TemplateView
 
+
 urlpatterns = [
-    path('', views.index),
-    path('control_board/', include('control_board.urls')),
     path('admin/', admin.site.urls),
+    path('', include('control_board.urls')),
     url(r'^chat/', TemplateView.as_view(template_name="control_board/chat.html"), name='chat'),
-    url(r'^send_command/$', views.send_command, name="send_command"),
     path('robots/', include('robots.urls')),
 ]
