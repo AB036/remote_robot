@@ -13,6 +13,7 @@ class SocketConnection(Thread) :
             self.__listen()
 
     def __start_connection(self) :
+        print("Establishing connection...")
         host = '127.0.0.1'
         port = 12800
 
@@ -39,6 +40,7 @@ class SocketConnection(Thread) :
             new_robot_height = int.from_bytes(self.client_connection.recv(2),byteorder="big")
             new_robot_width = int.from_bytes(self.client_connection.recv(2), byteorder="big")
             self.__send_command(new_robot_id)
+            print("Sent command to new robot with id "+str(new_robot_id))
             #addrobot(new_robot_id,new_robot_height,new_robot_width)
         elif header == b'\x02' : #If received a video frame message
             ...
