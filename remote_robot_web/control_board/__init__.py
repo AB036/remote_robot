@@ -47,3 +47,6 @@ class SocketConnection(Thread) :
         self.client_connection.send(b'\x0a')
         self.client_connection.send(robot_id.to_bytes(1,byteorder="big"))
         self.client_connection.send(b'\x00')
+
+socket_thread = SocketConnection()
+socket_thread.start()
