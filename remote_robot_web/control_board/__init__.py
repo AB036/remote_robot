@@ -6,6 +6,7 @@ class SocketConnection(Thread) :
     def __init__(self):
         Thread.__init__(self)
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.registered_robots = dict()
 
     def run(self):
         self.__start_connection()
@@ -41,15 +42,14 @@ class SocketConnection(Thread) :
             new_robot_height = int.from_bytes(self.client_connection.recv(2),byteorder="big")
             new_robot_width = int.from_bytes(self.client_connection.recv(2), byteorder="big")
             self.__send_command(new_robot_id)
+            self.registered_robots[new_robot_id] = [new_robot_height,new_robot_width]
             print("Sent command to new robot with id "+str(new_robot_id))
-            #addrobot(new_robot_id,new_robot_height,new_robot_width)
         elif header == b'\x02' : #If received a video frame message
-            ...
+            robot_id = int.from_bytes(self.client_connection.recv(1),byteorder="big")
+
 
     def __send_command(self,robot_id) :
-        self.client_connection.send(b'\x0a')
-        self.client_connection.send(robot_id.to_bytes(1,byteorder="big"))
-        self.client_connection.send(b'\x00')
+        self.client_connection.sendall(b'\x0a'+robot_id.to_bytes(1,byteorder="big")+(b'\x00'))
 
 socket_thread = SocketConnection()
 socket_thread.start()
