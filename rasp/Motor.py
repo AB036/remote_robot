@@ -1,10 +1,35 @@
 import sys
 import time
-import RPi.GPIO as GPIO
 
 
 class Motor:
+    def __init__(self):
+        pass
+
+    def move_speed(self, speed):
+        raise NotImplementedError()
+
+
+class VirtualMotor(Motor):
+    def __init__(self, name):
+        self.__name = name
+
+    def move_speed(self, speed):
+        if not isinstance(speed, float):
+            raise ValueError("Speed should be float")
+        if not (-100 < speed < 100):
+            raise ValueError("Speed is a signed percentage and should be between -100 and 100")
+        if speed < 0:
+            print("Motor " + self.__name + " turn reverse direction with speed " + str(-speed))
+        elif speed > 0:
+            print("Motor " + self.__name + " turn normal direction with speed " + str(speed))
+        else:
+            print("Motor " + self.__name + " is stopped")
+
+
+class TrueMotor(Motor):
     def __init__(self, pin_in_1, pin_in_2, pin_pwm):
+        import RPi.GPIO as GPIO
         if not isinstance(pin_in_1, int):
             raise ValueError("pin_in_1 pin should be int")
         if not isinstance(pin_in_2, int):
