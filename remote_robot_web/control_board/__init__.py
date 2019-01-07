@@ -23,6 +23,7 @@ class SocketConnection(Thread) :
         self.client_connection, info = self.connection.accept()
 
         received_msg = self.client_connection.recv(1)
+        print(received_msg)
         if received_msg == b'\x19' :
             print("Local connection established")
             self.client_connection.send(b'\x19')
