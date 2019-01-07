@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -10,12 +11,6 @@ from django import forms
 
 class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
-
-def send_command(request) :
-    command = request.GET['command']
-    print("OOOOOOOOOKK"+command)
-    template = loader.get_template('control_board/index.html')
-    return HttpResponse(template.render(request=request))
 
 
 def index(request):
@@ -36,4 +31,19 @@ def index(request):
 
     template = loader.get_template('control_board/index.html')
     return HttpResponse(template.render(request=request))
+
+
+def move(request):
+    direction = request.GET.get('direction', None)
+
+    if direction == "up":
+        print('this is up')
+    elif direction == "down":
+        print('this is down')
+    elif direction == "right":
+        print('this is right')
+    elif direction == "left":
+        print('this is left')
+
+    return JsonResponse({'direction': direction})
 

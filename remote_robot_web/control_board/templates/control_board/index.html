@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link href="{% static 'control_board/index_rr.css' %}" rel="stylesheet" type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'control_board/dynamic.js' %}"></script>
 </head>
 <body>
     <p class="title marge_left marge_right marge_up">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
@@ -31,11 +32,13 @@
                 </iframe>
             </div>
             <form class="form" action="" method="post">
+                <!-- onsubmit="send_message(); return false;" -->
                 {% csrf_token %}
                 <div class="field">
                     <div class="control">
                         <input id="id_message" name="message" class="input is-rounded"
-                               placeholder="Ecrivez votre message ici..." type="text">
+                               placeholder="Ecrivez votre message ici..." type="text"
+                        >
                     </div>
                 </div>
             </form>
