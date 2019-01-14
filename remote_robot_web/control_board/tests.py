@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.test.client import RequestFactory
 
 # Create your tests here.
@@ -12,10 +12,12 @@ class ControlBoardViewTests(TestCase):
         """
         If a wrong command (from keyboard for instance) is used, it doesn't do anything.
         """
-        request = self.factory.get('control_board/ajax/move/')
+        client = Client()
+        action_url = 'control_board/ajax/move/'
         order = 'something'
 
-        return NotImplementedError
+        response = client.post(action_url, {'direction': order})
+        print(response.status_code)
 
     def test_command_is_correctly_received(self):
         """

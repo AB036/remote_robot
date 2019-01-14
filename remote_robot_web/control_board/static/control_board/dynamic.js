@@ -11,8 +11,8 @@ function send_message() {
 };
 
 // url for ajax request
-var url = "control_board/ajax/move/";
-
+//var url = "control_board/ajax/move/";
+var url = "ajax/move/";
 
 function moveUp() {
     // this function send an AJAX request to move up
