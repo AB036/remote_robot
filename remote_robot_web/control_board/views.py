@@ -16,7 +16,7 @@ def right_button(request):
     return HttpResponseRedirect('')
 
 
-class IndexView(View):
+class ControlBoardView(View):
     """View for index page."""
     template_name = 'control_board/index.html'
     form_class = ChatForm
