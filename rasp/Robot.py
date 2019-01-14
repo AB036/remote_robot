@@ -1,5 +1,5 @@
 import Motor
-import time 
+import time
 
 class Robot:
     def __init__(self, left_motor, right_motor, ros_node):
@@ -14,7 +14,7 @@ class Robot:
         self.__turning_speed = 100.0  # Speed for turning. Between 0 and 100
 
     def process_command(self, command):
-        if time.time() - self.__ros_node.last_time < 1000:
+        if time.time() - self.__ros_node.last_time < 1:
             if command == "up":
                 self.__move_forward()
             elif command == "down":
