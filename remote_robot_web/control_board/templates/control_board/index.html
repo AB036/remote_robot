@@ -4,25 +4,38 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Remote Robot</title>
+    <!-- we load different libraries and scripts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link href="{% static 'control_board/index_rr.css' %}" rel="stylesheet" type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{% static 'control_board/dynamic.js' %}"></script>
 </head>
 <body>
-    <p class="title marge_left marge_right marge_up">Remot'Robot : la nouvelle application pour commander des robots à distance</p>
+    <!-- title of our project -->
+    <p class="title marge_left marge_right marge_up">Remot'Robots : the new application to control ryour obots remotely !</p>
     <div class="columns marge_left marge_right">
+
+        <!-- first column is for the video -->
         <div class="column is-half bandeau_video">
             <div class="content">
-                <p class="subtitle">Voici la vue de votre robot :</p>
+                <p class="subtitle">Here is the video from your robot:</p>
             </div>
-            <div class="big_marge_left">
+
+            <!-- button to display video at the beginning, it hides when we click on it -->
+            <div id="to_hide" class="big_marge_left">
+                <a class="button is-info is-rounded button_video" onclick="active_video();">Click here to display the video !</a>
+            </div>
+
+            <!-- video -->
+            <div id="to_display" class="big_marge_left" style="display:none;">
                 <img src="{% url 'streaming_webcam' %}" height="450" width="450"/>
             </div>
         </div>
+
+        <!-- second column is for the chat -->
         <div class="column is-half bandeau_chat">
             <div class="content">
-                <p class="subtitle">Vous pouvez chatter ici :</p>
+                <p class="subtitle">You can chat here :</p>
             </div>
 
             <div class="box">
@@ -32,21 +45,23 @@
                 </iframe>
             </div>
             <form class="form" action="" method="post">
-                <!-- onsubmit="send_message(); return false;" -->
                 {% csrf_token %}
                 <div class="field">
                     <div class="control">
                         <input id="id_message" name="message" class="input is-rounded"
-                               placeholder="Ecrivez votre message ici..." type="text"
+                               placeholder="Write your message here..." type="text"
                         >
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- Commands of the robot -->
     <div class="content marge_left">
-        <p class="subtitle">Commandes du robot :</p>
+        <p class="subtitle">Commands :</p>
     </div>
     {% include 'control_board/commands.html' %}
+
 </body>
 </html>
