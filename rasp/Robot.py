@@ -1,28 +1,32 @@
-import Motor.Motor
-
+import Motor
+import time 
 
 class Robot:
-    def __init__(self, left_motor, right_motor):
+    def __init__(self, left_motor, right_motor, ros_node):
         if not isinstance(left_motor, Motor.Motor):
             raise ValueError("motor should be Motor Objects")
         if not isinstance(right_motor, Motor.Motor):
             raise ValueError("motor should be Motor Objects")
         self.__left_motor = left_motor
         self.__right_motor = right_motor
-        self.__straight_speed = 30  # Speed for straight movement. Between 0 and 100
-        self.__turning_speed = 10  # Speed for turning. Between 0 and 100
+        self.__ros_node = ros_node
+        self.__straight_speed = 100.0  # Speed for straight movement. Between 0 and 100
+        self.__turning_speed = 100.0  # Speed for turning. Between 0 and 100
 
     def process_command(self, command):
-        if command == "up":
-            self.__move_forward()
-        elif command == "down":
-            self.__move_backward()
-        elif command == "left":
-            self.__turn_left()
-        elif command == "right":
-            self.__turn_right()
-        elif command == "stop":
-            self.__stop()
+        if time.time() - self.__ros_node.last_time < 1000:
+            if command == "up":
+                self.__move_forward()
+            elif command == "down":
+                self.__move_backward()
+            elif command == "left":
+                self.__turn_left()
+            elif command == "right":
+                self.__turn_right()
+            elif command == "stop":
+                self.__stop()
+            else:
+                self.__stop()
         else:
             self.__stop()
 
