@@ -1,22 +1,42 @@
 <div class="columns is-multiline marge_left marge_right">
-    <div class="column is-one-third">
 
-    </div>
-    <div class="column is-one-third">
-        <button type="button" name="buttonUp" onclick="send_command('up');" class="button is-dark is-fullwidth is-rounded"> UP </button>
-    </div>
+    <!-- column for style aspect -->
     <div class="column is-one-third">
     </div>
+
+    <!-- UP button, on click it runs moveUp() function -->
     <div class="column is-one-third">
-        <button class="button is-dark is-rounded is-fullwidth">LEFT</button>
+        <button type="button" name="buttonUp" class="button is-dark is-fullwidth is-rounded"
+                onclick="moveUp()">
+            UP
+        </button>
     </div>
+
+    <!-- column for style aspect -->
     <div class="column is-one-third">
-        <button class="button is-dark is-rounded is-fullwidth">DOWN</button>
     </div>
+
+    <!-- LEFT button, on click it runs moveLeft() function -->
     <div class="column is-one-third">
-        <form action="right-button" method="POST">
-            {% csrf_token %}
-            <button class="button is-dark is-rounded is-fullwidth">RIGHT</button>
-        </form>
+        <button type="button" name="buttonLeft" class="button is-dark is-rounded is-fullwidth"
+                onclick="moveLeft()">
+            LEFT
+        </button>
+    </div>
+
+    <!-- DOWN button, on click it runs moveDown() function -->
+    <div class="column is-one-third">
+        <button type="button" name="buttonDown" class="button is-dark is-rounded is-fullwidth"
+                onclick="moveDown()">
+            DOWN
+        </button>
+    </div>
+
+    <!-- RIGHT button, on click it runs moveRight() function -->
+    <div class="column is-one-third">
+        <button type="button" name="buttonDown" class="button is-dark is-rounded is-fullwidth"
+                onclick="moveRight()">
+            RIGHT
+        </button>
     </div>
 </div>

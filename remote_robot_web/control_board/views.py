@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django import forms
 
 
@@ -9,11 +9,6 @@ from django import forms
 
 class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
-
-
-def right_button(request):
-    print('salut')
-    return HttpResponseRedirect('')
 
 
 class ControlBoardView(View):
@@ -39,3 +34,18 @@ class ControlBoardView(View):
             with open('control_board/templates/control_board/chat.html', 'w') as file_chat:
                 file_chat.write(html_msg)
             return HttpResponse(render(request, self.template_name))
+
+
+def move(request):
+    direction = request.GET.get('direction', None)
+
+    if direction == "up":
+        print('this is up')
+    elif direction == "down":
+        print('this is down')
+    elif direction == "right":
+        print('this is right')
+    elif direction == "left":
+        print('this is left')
+
+    return JsonResponse({'direction': direction})
