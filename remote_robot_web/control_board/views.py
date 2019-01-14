@@ -8,12 +8,16 @@ from django.http import HttpResponse
 from django.template import loader
 from django import forms
 
+from control_board.Socket_connection import Socket_connection
+
 
 class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
+socket_thread = Socket_connection()
 
 def index(request):
+    socket_thread.start()
     if request.method == 'POST':
         form = ChatForm(request.POST or None)
         if form.is_valid():
@@ -37,13 +41,13 @@ def move(request):
     direction = request.GET.get('direction', None)
 
     if direction == "up":
-        print('this is up')
+        socket_thread.send_command(0, 0)
     elif direction == "down":
-        print('this is down')
+        socket_thread.send_command(0, 1)
     elif direction == "right":
-        print('this is right')
+        socket_thread.send_command(0, 2)
     elif direction == "left":
-        print('this is left')
+        socket_thread.send_command(0, 3)
 
     return JsonResponse({'direction': direction})
 
