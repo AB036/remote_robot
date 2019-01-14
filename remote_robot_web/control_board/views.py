@@ -14,7 +14,7 @@ from control_board.Socket_connection import Socket_connection
 class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
-socket_thread = Socket_connection()
+socket_thread = Socket_connection() #Creates the socket thread to connect in localhost with ROS
 
 def index(request):
     socket_thread.start()
@@ -44,9 +44,9 @@ def move(request):
         socket_thread.send_command(0, 0)
     elif direction == "down":
         socket_thread.send_command(0, 1)
-    elif direction == "right":
-        socket_thread.send_command(0, 2)
     elif direction == "left":
+        socket_thread.send_command(0, 2)
+    elif direction == "right":
         socket_thread.send_command(0, 3)
 
     return JsonResponse({'direction': direction})
