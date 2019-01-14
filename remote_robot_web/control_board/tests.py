@@ -1,29 +1,30 @@
 from django.test import TestCase, Client
-from django.test.client import RequestFactory
+from django.urls import reverse
+
 
 # Create your tests here.
 
 class ControlBoardViewTests(TestCase):
-    def setUp(self):
-        # Every test needs access to the request factory.
-        self.factory = RequestFactory()
-
     def test_wrong_command_does_nothing(self):
         """
         If a wrong command (from keyboard for instance) is used, it doesn't do anything.
         """
         client = Client()
-        action_url = 'control_board/ajax/move/'
-        order = 'something'
+        params = {'direction': 'something'}
 
-        response = client.post(action_url, {'direction': order})
-        print(response.status_code)
+        response = client.get(reverse('ajax_move'), params)
+        self.assertEqual(response.status_code, 404)
 
     def test_command_is_correctly_received(self):
         """
         When a command is used (either from keyboard or mouse click), it is correctly received.
         """
-        return NotImplementedError
+        client = Client()
+        params = {'direction': 'up'}
+
+        response = client.get(reverse('ajax_move'), params)
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content, encoding='utf8'), params)
 
     def test_socket_has_proper_format(self):
         """
