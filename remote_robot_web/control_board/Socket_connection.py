@@ -43,7 +43,6 @@ class Socket_connection(Thread) :
             new_robot_id = self.__client_connection.recv(1)[0]
             new_robot_height = int.from_bytes(self.__client_connection.recv(2), byteorder="big")
             new_robot_width = int.from_bytes(self.__client_connection.recv(2), byteorder="big")
-            self.__send_command(new_robot_id)
             self.__registered_robots[new_robot_id] = [new_robot_height,new_robot_width]
             print("Sent command to new robot with id "+str(new_robot_id))
         elif header == b'\x02' : #If received a video frame message
