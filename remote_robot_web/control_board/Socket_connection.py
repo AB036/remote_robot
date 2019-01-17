@@ -2,7 +2,6 @@ import socket
 from threading import Thread
 import numpy as np
 
-import
 
 class SocketReadingException(Exception):
     pass
