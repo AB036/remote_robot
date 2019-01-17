@@ -2,6 +2,10 @@ import socket
 from threading import Thread
 import numpy as np
 
+import
+
+class SocketReadingException(Exception):
+    pass
 
 class Socket_connection(Thread) :
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
@@ -49,14 +53,18 @@ class Socket_connection(Thread) :
             new_robot_width = int.from_bytes(self.__client_connection.recv(2), byteorder="big")
             self.__registered_robots[new_robot_id] = [new_robot_height,new_robot_width]
             print("Added new robot with id "+str(new_robot_id)+" and dim "+str(new_robot_height)+","+str(new_robot_width))
-            print("Sent command to new robot with id "+str(new_robot_id))
 
         elif header == b'\x02' : #If received a video frame message
             robot_id = int.from_bytes(self.__client_connection.recv(1), byteorder="big")
             [robot_height,robot_width] = self.__registered_robots[robot_id]
             img = []
+            #Starting reading each line of the image
             for i in range(robot_width) :
-                line = list(np.array(list(self.__connection.recv(3*robot_width))).reshape((robot_width,1,3)))
+                second_header = self.__client_connection.recv(1)
+                if second_header != b'\x03' :
+                    raise SocketReadingException("Error while reading lines from camera image") ;
+                print(i)
+                line = list(np.array(list(self.__client_connection.recv(3*robot_width))).reshape((robot_width,1,3)))
                 img.append(line)
             Socket_connection.frame = np.array(img)
 
