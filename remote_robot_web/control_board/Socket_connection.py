@@ -9,7 +9,7 @@ class SocketReadingException(Exception):
 class Socket_connection(Thread) :
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
-    frame = "" ;
+    frame = np.zeros((640,480,3))
 
     def __init__(self):
         Thread.__init__(self)
@@ -63,10 +63,10 @@ class Socket_connection(Thread) :
                 second_header = self.__client_connection.recv(1)
                 if second_header != b'\x03' :
                     raise SocketReadingException("Error while reading lines from camera image") ;
-                print("Received line {}".format(i))
                 line = list(np.array(list(self.__client_connection.recv(3*robot_width))).reshape((robot_width,1,3)))
                 img.append(line)
             Socket_connection.frame = np.array(img)
+            print(Socket_connection.frame.size)
 
     def send_command(self,robot_id,command_id) :
         print("Sent command "+str(command_id)+" to robot "+str(robot_id))

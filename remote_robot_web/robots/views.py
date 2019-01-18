@@ -20,7 +20,6 @@ class StreamingVideoView(View):
         def get_frame(self):
             ret, image = self.video.read() #REPLACE BY THE MATRIX RECEIVING CODE
             imageRec = Socket_connection.frame
-            print(imageRec.shape)
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             #print(jpeg.shape)
             return jpeg.tobytes()
