@@ -56,13 +56,14 @@ class Socket_connection(Thread) :
         elif header == b'\x02' : #If received a video frame message
             robot_id = int.from_bytes(self.__client_connection.recv(1), byteorder="big")
             [robot_height,robot_width] = self.__registered_robots[robot_id]
+            print("Starting to receive an image from robot {} with res {} x {}".format(robot_id,robot_height,robot_width))
             img = []
             #Starting reading each line of the image
-            for i in range(robot_width) :
+            for i in range(robot_height) :
                 second_header = self.__client_connection.recv(1)
                 if second_header != b'\x03' :
                     raise SocketReadingException("Error while reading lines from camera image") ;
-                print(i)
+                print("Received line {}".format(i))
                 line = list(np.array(list(self.__client_connection.recv(3*robot_width))).reshape((robot_width,1,3)))
                 img.append(line)
             Socket_connection.frame = np.array(img)
