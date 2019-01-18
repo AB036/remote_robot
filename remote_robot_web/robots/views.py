@@ -20,7 +20,6 @@ class StreamingVideoView(View):
             imageRec = Socket_connection.frame
             if imageRec != "":
                 image = imageRec
-                print("DISPLAYING FRAME FROM THREAD")
                 return image.tobytes()
             ret, jpeg = cv2.imencode('.jpg', image)
             return jpeg.tobytes()
