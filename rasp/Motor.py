@@ -17,7 +17,7 @@ class VirtualMotor(Motor):
     def move_speed(self, speed):
         if not isinstance(speed, float):
             raise ValueError("Speed should be float")
-        if not (-100 < speed < 100):
+        if not (-100 <= speed <= 100):
             raise ValueError("Speed is a signed percentage and should be between -100 and 100")
         if speed < 0:
             print("Motor " + self.__name + " turn reverse direction with speed " + str(-speed))
