@@ -10,12 +10,14 @@ from control_board.socket_connection import SocketConnection
 class StreamingVideoView(View):
     class VideoCamera:
         def __init__(self):
-            self.video = cv2.VideoCapture(0)
+            pass
+            #self.video = cv2.VideoCapture(0)
 
-        def __del__(self):
-            self.video.release()
+        #def __del__(self):
+            #self.video.release()
 
         def get_frame(self):
+            #ret, jpeg = self.video.read()
             imageRec = SocketConnection.frame
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             return jpeg.tobytes()
