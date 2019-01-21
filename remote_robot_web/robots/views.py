@@ -14,7 +14,7 @@ class StreamingVideoView(View):
             self.video.release()
 
         def get_frame(self):
-            ret, image = self.video.read() #REPLACE BY THE MATRIX RECEIVING CODE
+            ret, image = self.video.read() #R EPLACE BY THE MATRIX RECEIVING CODE
             ret, jpeg = cv2.imencode('.jpg', image)
             return jpeg.tobytes()
 
