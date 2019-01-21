@@ -2,7 +2,10 @@ import sys
 import time
 import RPi.GPIO
 
+
 class Motor:
+    """Class representing a motor of the robot"""
+
     def __init__(self):
         pass
 
@@ -11,6 +14,7 @@ class Motor:
 
 
 class VirtualMotor(Motor):
+    """A virtual motor is used to test the ros communication without really moving the motors (for debug only)"""
     def __init__(self, name):
         self.__name = name
 
@@ -58,14 +62,17 @@ class TrueMotor(Motor):
         if not (speed > -100 and speed < 100):
             raise ValueError("Speed is a signed percentage and should be between -100 and 100")
         if speed < 0:
+            """setup the pins to turn motor in positive direction"""
             RPi.GPIO.output(self.__pin_in_1, RPi.GPIO.LOW)
             RPi.GPIO.output(self.__pin_in_2, RPi.GPIO.HIGH)
             self._pwm.ChangeDutyCycle(-speed)
         elif speed > 0:
+            """setup the pins to turn motor in negative direction"""
             RPi.GPIO.output(self.__pin_in_1, RPi.GPIO.HIGH)
             RPi.GPIO.output(self.__pin_in_2, RPi.GPIO.LOW)
             self._pwm.ChangeDutyCycle(speed)
         else:
+            """setup the pins to stop motor """
             RPi.GPIO.output(self.__pin_in_1, RPi.GPIO.LOW)
             RPi.GPIO.output(self.__pin_in_2, RPi.GPIO.LOW)
             self._pwm.ChangeDutyCycle(speed)

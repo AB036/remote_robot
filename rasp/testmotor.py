@@ -2,6 +2,8 @@ import Motor
 import Robot
 import time
 
+"""Package for debug only. It tests the motors"""
+
 left_motor = Motor.TrueMotor(17,27,22)
 right_motor = Motor.TrueMotor(18,23,24)
 robot = Robot.Robot(left_motor, right_motor)

@@ -2,6 +2,7 @@ import Motor
 import time
 
 class Robot:
+    """This class controls the motors of the robot in function of the command"""
     def __init__(self, left_motor, right_motor, ros_node):
         if not isinstance(left_motor, Motor.Motor):
             raise ValueError("motor should be Motor Objects")
@@ -10,11 +11,12 @@ class Robot:
         self.__left_motor = left_motor
         self.__right_motor = right_motor
         self.__ros_node = ros_node
-        self.__straight_speed = 95.0  # Speed for straight movement. Between 0 and 100
-        self.__turning_speed = 95.0  # Speed for turning. Between 0 and 100
+        self.__straight_speed = 95.0  # Speed for straight movement. Between 0 and 99
+        self.__turning_speed = 95.0  # Speed for turning. Between 0 and 99
 
     def process_command(self, command):
-        if time.time() - self.__ros_node.last_time < 1.0:
+        """Process the command : should be called frequently (10Hz)"""
+        if time.time() - self.__ros_node.last_time < 1.0:  # After one second, robot stops, waiting for a new command
             if command == "up":
                 self.__move_forward()
             elif command == "down":
