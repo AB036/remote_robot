@@ -4,6 +4,8 @@ from django.http import StreamingHttpResponse, HttpResponseServerError, HttpResp
 
 from .models import Robot
 
+from control_board.socket_connection import SocketConnection
+
 
 class StreamingVideoView(View):
     class VideoCamera:
@@ -14,8 +16,8 @@ class StreamingVideoView(View):
             self.video.release()
 
         def get_frame(self):
-            ret, image = self.video.read() #REPLACE BY THE MATRIX RECEIVING CODE
-            ret, jpeg = cv2.imencode('.jpg', image)
+            imageRec = SocketConnection.frame
+            ret, jpeg = cv2.imencode('.jpg', imageRec)
             return jpeg.tobytes()
 
     # model = Robot
