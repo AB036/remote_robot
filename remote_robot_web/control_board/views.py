@@ -2,37 +2,19 @@ from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
 
-# Create your views here.
 
 from django.http import HttpResponse
 from django.template import loader
-from django import forms
 
 from control_board.socket_connection import SocketConnection
 
 
-class ChatForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea)
+socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
 
-socket_thread = SocketConnection() #Creates the socket thread to connect in localhost with ROS
 
 def index(request):
-    socket_thread.start()
-    if request.method == 'POST':
-        form = ChatForm(request.POST or None)
-        if form.is_valid():
-            message = form.cleaned_data["message"]
-            html_msg = ""
-            with open('control_board/templates/control_board/chat.html', 'r') as file_chat:
-                for line in file_chat.readlines():
-                    if line.strip() == "</div>":
-                        break
-                    html_msg += line
-
-            html_msg += "<p>{}</p>".format(message) + "\n</div>\n</body>\n</html>"
-            with open('control_board/templates/control_board/chat.html', 'w') as file_chat:
-                file_chat.write(html_msg)
-
+    if not socket_thread.is_alive():
+        socket_thread.start()
     template = loader.get_template('control_board/index.html')
     return HttpResponse(template.render(request=request))
 
