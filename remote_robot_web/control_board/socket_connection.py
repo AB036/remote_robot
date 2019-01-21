@@ -6,6 +6,7 @@ import numpy as np
 class SocketReadingException(Exception):
     pass
 
+
 class SocketConnection(Thread) :
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
