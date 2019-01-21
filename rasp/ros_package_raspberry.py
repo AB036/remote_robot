@@ -10,13 +10,13 @@ import cv2
 import Motor
 import ros_package
 import Robot
-
+import time
 
 ros_node = ros_package.RosNodeRaspberry()
 camera = PiCamera()
 print("After picam")
 camera.resolution = (640, 480)
-camera.framerate = 60
+camera.framerate = 5
 rawCapture = PiRGBArray(camera, size=(640, 480))
 print("After rawcapture")
 generator = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
@@ -36,6 +36,7 @@ while not rospy.is_shutdown():
     cv2.putText(image, command, (10, 65), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     ros_node.publish_image(image)
     rawCapture.truncate(0)
+    time.sleep(0.2)
 
 
 # spin() simply keeps python from exiting until this node is stopped

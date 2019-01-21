@@ -16,11 +16,14 @@ right_motor = Motor.VirtualMotor("right")
 right_motor = Motor.TrueMotor(18,23,24)
 robot = Robot.Robot(left_motor, right_motor, ros_node)
 command_list = ["up", "down", "left", "right", "stop"]
+last_time = time.time()
 
 while True:
-    command = ros_node.command
+    command = "up"#ros_node.command
     robot.process_command(command)
     image = blank_image = np.zeros((480, 640, 3), np.uint8)
     cv2.putText(image, command, (10, 65), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     ros_node.publish_image(image)
     time.sleep(0.1)
+    if time.time()-last_time > 5:
+        break;

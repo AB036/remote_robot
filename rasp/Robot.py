@@ -10,11 +10,11 @@ class Robot:
         self.__left_motor = left_motor
         self.__right_motor = right_motor
         self.__ros_node = ros_node
-        self.__straight_speed = 100.0  # Speed for straight movement. Between 0 and 100
-        self.__turning_speed = 100.0  # Speed for turning. Between 0 and 100
+        self.__straight_speed = 95.0  # Speed for straight movement. Between 0 and 100
+        self.__turning_speed = 95.0  # Speed for turning. Between 0 and 100
 
     def process_command(self, command):
-        if time.time() - self.__ros_node.last_time < 1:
+        if time.time() - self.__ros_node.last_time < 1.0:
             if command == "up":
                 self.__move_forward()
             elif command == "down":
