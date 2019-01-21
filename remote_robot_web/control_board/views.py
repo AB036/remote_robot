@@ -8,13 +8,13 @@ from django.http import HttpResponse
 from django.template import loader
 from django import forms
 
-from control_board.Socket_connection import Socket_connection
+from control_board.socket_connection import SocketConnection
 
 
 class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
-socket_thread = Socket_connection() #Creates the socket thread to connect in localhost with ROS
+socket_thread = SocketConnection() #Creates the socket thread to connect in localhost with ROS
 
 def index(request):
     socket_thread.start()
