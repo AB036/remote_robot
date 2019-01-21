@@ -10,10 +10,6 @@ from django import forms
 
 from control_board.socket_connection import SocketConnection
 
-
-class ChatForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea)
-
 socket_thread = SocketConnection() #Creates the socket thread to connect in localhost with ROS
 
 def index(request):
