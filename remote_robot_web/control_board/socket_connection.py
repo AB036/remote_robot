@@ -62,7 +62,7 @@ class SocketConnection(Thread) :
             for i in range(robot_height) :
                 second_header = self.__client_connection.recv(1)
                 if second_header != b'\x03' :
-                    raise SocketReadingException("Error while reading lines from camera image") ;
+                    raise SocketReadingException("Error while reading line {} from camera image : Received header byte {} instead of 3".format(i,second_header))
                 line = []
                 for j in range(robot_width) :
                     line.append(list(self.__client_connection.recv(3)))
