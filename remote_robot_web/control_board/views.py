@@ -9,12 +9,12 @@ from django.template import loader
 from control_board.socket_connection import SocketConnection
 
 
-socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
+#socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
 
 
 def index(request):
-    if not socket_thread.is_alive():
-        socket_thread.start()
+    #if not socket_thread.is_alive():
+        #socket_thread.start()
     template = loader.get_template('control_board/index.html')
     return HttpResponse(template.render(request=request))
 
