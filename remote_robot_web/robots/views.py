@@ -9,17 +9,18 @@ from control_board.socket_connection import SocketConnection
 
 
 class StreamingVideoView(View):
+
     class VideoCamera:
         def __init__(self):
-            self.video = cv2.VideoCapture(0)
+            #self.video = cv2.VideoCapture(0)
             pass
 
         def __del__(self):
-            self.video.release()
+            #self.video.release()
             pass
 
         def get_frame(self):
-            ret, image = self.video.read()
+            #ret, image = self.video.read()
             #imageRec = SocketConnection.frame
             imageRec = np.random.randint(0, 255, (480, 640, 3))
             ret, jpeg = cv2.imencode('.jpg', imageRec)
