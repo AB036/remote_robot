@@ -11,9 +11,9 @@ from control_board.socket_connection import SocketConnection
 class StreamingVideoView(View):
 
     class VideoCamera:
-        def __init__(self):
+        """def __init__(self):
             #self.video = cv2.VideoCapture(0)
-            pass
+            pass"""
 
         def __del__(self):
             #self.video.release()
@@ -31,13 +31,15 @@ class StreamingVideoView(View):
 
     def get(self, request):
         try:
-            return StreamingHttpResponse(self.gen(self.VideoCamera()),
+            return StreamingHttpResponse(self.gen(),
                                          content_type="multipart/x-mixed-replace;boundary=frame")
         except HttpResponseServerError as no_stream_exception:
             return HttpResponse("No stream available.")
 
     @staticmethod
-    def gen(camera):
+    def gen():
         while True:
-            frame = camera.get_frame()
+            imageRec = np.random.randint(0, 255, (480, 640, 3))
+            ret, jpeg = cv2.imencode('.jpg', imageRec)
+            frame = jpeg.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
