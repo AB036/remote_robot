@@ -10,7 +10,8 @@ class SocketReadingException(Exception):
 class SocketConnection(Thread) :
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
-    frame = np.random.randint(0,255,(480,640,3))
+    #frame = np.random.randint(0,255,(480,640,3))
+    frame = np.zeros((480, 640, 3))
 
     def __init__(self):
         Thread.__init__(self)
