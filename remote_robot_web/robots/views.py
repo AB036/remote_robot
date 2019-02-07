@@ -20,7 +20,7 @@ class StreamingVideoView(View):
 
         def get_frame(self):
             ret, image = self.video.read()
-            imageRec = SocketConnection.frame
+            #imageRec = SocketConnection.frame
             imageRec = np.random.randint(0, 255, (480, 640, 3))
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             return jpeg.tobytes()
