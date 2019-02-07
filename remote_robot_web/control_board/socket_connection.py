@@ -69,7 +69,8 @@ class SocketConnection(Thread) :
                     line.append(list(self.__client_connection.recv(3)))
                 img.append(line)
             SocketConnection.frame = np.array(img)
+            print("Received new frame")
 
     def send_command(self,robot_id,command_id) :
         print("Sent command "+str(command_id)+" to robot "+str(robot_id))
-        self.__client_connection.send(b'\x0a' + bytes([robot_id]) + bytes([command_id]))
+        self.__client_connection.sendall(b'\x0a' + bytes([robot_id]) + bytes([command_id]))
