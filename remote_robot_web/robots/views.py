@@ -20,7 +20,7 @@ class StreamingVideoView(View):
         def get_frame(self):
             ret, image = self.video.read()
             imageRec = SocketConnection.frame
-            ret, jpeg = cv2.imencode('.jpg', imageRec)
+            ret, jpeg = cv2.imencode('.jpg', image)
             return jpeg.tobytes()
 
     # model = Robot
