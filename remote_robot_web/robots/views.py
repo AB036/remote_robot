@@ -28,18 +28,20 @@ class StreamingVideoView(View):
 
     # model = Robot
     # template_name = 'robots/streaming.html'
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
 
     def get(self, request):
         try:
-            return StreamingHttpResponse(self.gen(),
-                                         content_type="multipart/x-mixed-replace;boundary=frame")
+            return StreamingHttpResponse(self.gen(),content_type="multipart/x-mixed-replace;boundary=frame")
         except HttpResponseServerError as no_stream_exception:
             return HttpResponse("No stream available.")
 
-    @staticmethod
-    def gen():
+    def gen(self):
         while True:
-            imageRec = np.random.randint(0, 255, (480, 640, 3))
+            #frame = camera.get_frame()
+            ret, image = self.video.read()
+            imageRec = SocketConnection.frame
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             frame = jpeg.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
