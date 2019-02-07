@@ -72,4 +72,4 @@ class SocketConnection(Thread) :
 
     def send_command(self,robot_id,command_id) :
         print("Sent command "+str(command_id)+" to robot "+str(robot_id))
-        self.__client_connection.sendall(b'\x0a' + bytes([robot_id]) + bytes([command_id]))
+        self.__client_connection.send(b'\x0a' + bytes([robot_id]) + bytes([command_id]))
