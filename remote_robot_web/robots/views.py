@@ -42,6 +42,6 @@ class StreamingVideoView(View):
             #frame = camera.get_frame()
             ret, image = self.video.read()
             imageRec = SocketConnection.frame
-            ret, jpeg = cv2.imencode('.jpg', imageRec)
+            ret, jpeg = cv2.imencode('.jpg', image)
             frame = jpeg.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
