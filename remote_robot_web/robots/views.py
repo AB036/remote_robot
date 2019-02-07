@@ -22,14 +22,14 @@ class StreamingVideoView(View):
         def get_frame(self):
             #ret, image = self.video.read()
             #imageRec = SocketConnection.frame
-            imageRec = np.random.randint(0, 255, (480, 640, 3))
+            #imageRec = np.random.randint(0, 255, (480, 640, 3))
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             return jpeg.tobytes()
 
     # model = Robot
     # template_name = 'robots/streaming.html'
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
+    #def __init__(self):
+        #self.video = cv2.VideoCapture(0)
 
     def get(self, request):
         try:
@@ -43,10 +43,10 @@ class StreamingVideoView(View):
             i+=1
             #print(i)
             #frame = camera.get_frame()
-            ret, image = self.video.read()
+            #ret, image = self.video.read()
 
             imageRec = SocketConnection.frame
-            ret1, jpeg1 = cv2.imencode('.jpg', image)
+            #ret1, jpeg1 = cv2.imencode('.jpg', image)
             ret, jpeg = cv2.imencode('.jpg', imageRec)
             frame = jpeg.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
