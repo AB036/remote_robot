@@ -14,6 +14,7 @@ class ChatForm(forms.Form):
 
 
 socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
+socket_thread.start()
 
 
 class ControlBoardView(View):
