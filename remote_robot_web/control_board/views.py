@@ -51,13 +51,13 @@ def move(request):
 
     if direction in ['up', 'down', 'right', 'left']:
         if direction == "up":
-            print('this is up')
+            socket_thread.send_command(0, 0)
         elif direction == "down":
-            print('this is down')
-        elif direction == "right":
-            print('this is right')
+            socket_thread.send_command(0, 1)
         elif direction == "left":
-            print('this is left')
+            socket_thread.send_command(0, 2)
+        elif direction == "right":
+            socket_thread.send_command(0, 3)
 
         return JsonResponse({'direction': direction})
     else:
