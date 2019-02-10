@@ -11,22 +11,22 @@ from robot_communication import RobotComm
 
 
 def ros_server():
-	
+	global local_comm
 	#connect to the django script via localhost
-	local_comm = LocalComm(12345)
+	local_comm = LocalComm(12800)
 	local_comm.start()
-	print "local comm opened"
+	print("local comm opened")
 	
 	#ros node to communicate with the robot
 	rospy.init_node('ros_server')
 	pub = rospy.Publisher('commands', String, queue_size=10)
-	robot0 = RobotComm(0, pub, local_comm)
-	local_comm.add_robot(0, robot0)
+	robot0 = RobotComm(0, pub, local_comm, 640, 480)
+	local_comm.add_robot(0, robot0, 640, 480)
 	
-	print "robot0 initialized"
+	print("robot0 initialized")
 
 	while not rospy.is_shutdown():
-		rospy.sleep(2)
+		rospy.sleep(0.05)
 	
 	rospy.spin()
 
@@ -37,5 +37,7 @@ if __name__ == '__main__':
         ros_server()
     except rospy.ROSInterruptException:
         pass
-    
+
+
+local_comm.stop()
     
