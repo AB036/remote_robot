@@ -28,9 +28,7 @@ Currently, it only works with Linux 16.04. You'll need:
 ## Quickstart
 
 ### Server
-First set the environment variables: in the file `file`, add the line `line`.
-
-Now prepare the environment of the web server:
+First, prepare the environment of the web server:
 
 ```bash
 cd remote_robot_web
@@ -116,20 +114,21 @@ Here's what you can do with Remote Robot:
 
 ## Techniques
 
-Here are the techniques we used to build UpTV:
+Here are the techniques we used to build Remote Robot:
 
-- **Object Oriented Programming** (OOP) in Python: TO COMPLETE
-- **Threads**: TO COMPLETE
-- **Client-server architecture**.
+- Object Oriented Programming (OOP) in Python.
+- Client-server architecture.
 - Web application development using Django.
 - HTML/CSS/JS web development.
+- Embedded programming in Python on Raspberry Pi.
+- Communication with a robot using ROS framework.
+- Compatibility in real time of 2 programs using different version of Python.
 - Integration with third-party libraries.
 - Collaborative development using GitHub, Pull Requests and Trello.
-- Automated testing of critical features.
 
 ## Test commands
 
-Blabla
+TODO
 
 ## Contributing
 
