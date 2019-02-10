@@ -94,8 +94,16 @@ function applyKey(event) {
         moveDown();
     };
 
-}
+};
 
+
+function active_video() {
+    // hide the button 'displaying_video'
+    document.getElementById('to_hide').style.display = 'none';
+    // display the video
+    document.getElementById('to_display').style.display = 'block';
+    console.log('we have activated the video');
+};
 
 // the document is listening to any key pressed and return applyKey in this case
 document.onkeypress = applyKey;

@@ -3,13 +3,17 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django import forms
 
+from control_board.socket_connection import SocketConnection
+
 
 # Create your views here.
-
 
 class ChatForm(forms.Form):
     """Form for the chat, used in index page view."""
     message = forms.CharField(widget=forms.Textarea)
+
+
+socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
 
 
 class ControlBoardView(View):
@@ -21,6 +25,9 @@ class ControlBoardView(View):
         return render(request, self.template_name)
 
     def post(self, request):
+        if not socket_thread.is_alive():
+            socket_thread.start()
+
         form = self.form_class(request.POST or None)
         if form.is_valid():
             message = form.cleaned_data["message"]
