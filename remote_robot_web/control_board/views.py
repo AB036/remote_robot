@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django import forms
 
 
@@ -8,6 +8,7 @@ from django import forms
 
 
 class ChatForm(forms.Form):
+    """Form for the chat, used in index page view."""
     message = forms.CharField(widget=forms.Textarea)
 
 
@@ -37,15 +38,19 @@ class ControlBoardView(View):
 
 
 def move(request):
+    """Gets the given direction and generates JSON response."""
     direction = request.GET.get('direction', None)
 
-    if direction == "up":
-        print('this is up')
-    elif direction == "down":
-        print('this is down')
-    elif direction == "right":
-        print('this is right')
-    elif direction == "left":
-        print('this is left')
+    if direction in ['up', 'down', 'right', 'left']:
+        if direction == "up":
+            print('this is up')
+        elif direction == "down":
+            print('this is down')
+        elif direction == "right":
+            print('this is right')
+        elif direction == "left":
+            print('this is left')
 
-    return JsonResponse({'direction': direction})
+        return JsonResponse({'direction': direction})
+    else:
+        return HttpResponseNotFound('Wrong direction')
