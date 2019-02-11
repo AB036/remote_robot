@@ -2,34 +2,29 @@ import cv2
 from django.views import View
 from django.http import StreamingHttpResponse, HttpResponseServerError, HttpResponse
 
+import numpy as np
 from .models import Robot
+
+from control_board.socket_connection import SocketConnection
+
+
+def get_frame(self):
+    ret, image = self.video.read() #R EPLACE BY THE MATRIX RECEIVING CODE
+    ret, jpeg = cv2.imencode('.jpg', image)
+    return jpeg.tobytes()
 
 
 class StreamingVideoView(View):
-    class VideoCamera:
-        def __init__(self):
-            self.video = cv2.VideoCapture(0)
-
-        def __del__(self):
-            self.video.release()
-
-        def get_frame(self):
-            ret, image = self.video.read() #R EPLACE BY THE MATRIX RECEIVING CODE
-            ret, jpeg = cv2.imencode('.jpg', image)
-            return jpeg.tobytes()
-
-    # model = Robot
-    # template_name = 'robots/streaming.html'
 
     def get(self, request):
         try:
-            return StreamingHttpResponse(self.gen(self.VideoCamera()),
-                                         content_type="multipart/x-mixed-replace;boundary=frame")
+            return StreamingHttpResponse(self.gen(),content_type="multipart/x-mixed-replace;boundary=frame")
         except HttpResponseServerError as no_stream_exception:
             return HttpResponse("No stream available.")
 
-    @staticmethod
-    def gen(camera):
+    def gen(self):
         while True:
-            frame = camera.get_frame()
+            imageRec = SocketConnection.frame
+            ret, jpeg = cv2.imencode('.jpg', imageRec)
+            frame = jpeg.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
