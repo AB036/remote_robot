@@ -79,18 +79,19 @@ function moveDown() {
 
 
 function applyKey(event) {
+    console.log("key detected!");
 
     // if the key is the up arrow key, it moves UP
-    if (event.keyCode == 38) {
+    if (event.keyCode == 38 || event.keyCode == 90) {
         moveUp();
     // if the key is the left arrow key, it moves LEFT
-    } else if (event.keyCode == 37) {
+    } else if (event.keyCode == 37 || event.keyCode == 81) {
         moveLeft();
     // if the key is the right arrow key, it moves RIGHT
-    } else if (event.keyCode == 39) {
+    } else if (event.keyCode == 39 || event.keyCode == 68) {
         moveRight();
     // if the key is the down arrow key, it moves DOWN
-    } else if (event.keyCode == 40) {
+    } else if (event.keyCode == 40 || event.keyCode == 83) {
         moveDown();
     };
 
@@ -106,5 +107,6 @@ function active_video() {
 };
 
 // the document is listening to any key pressed and return applyKey in this case
+console.log("JS functions loaded !");
 document.onkeypress = applyKey;
 
