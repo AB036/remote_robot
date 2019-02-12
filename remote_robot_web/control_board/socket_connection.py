@@ -8,23 +8,28 @@ class SocketReadingException(Exception):
     pass
 
 
-class RobotCommand :
+class RobotCommand:
     """Class representing a command to send to a robot."""
 
-    def __init__(self,robot_id->int,command_id->int):
+    def __init__(self,robot_id,command_id):
         self.__robot_id = robot_id
         self.__command_id = command_id
 
     def get_bytes_command(self):
         """Converts the command into bytes to send with the socket"""
-        return b'\x0a' + bytes([robot_id]) + bytes([command_id])
+        return (b'\x0a' + bytes([self.__robot_id]) + bytes([self.__command_id]))
 
-class SocketConnection(Thread) :
+    def get_string_command(self):
+        """Converts the command into a string message"""
+        return "Sent command " + str(self.__command_id) + " to robot " + str(self.__robot_id)
+
+
+class SocketConnection(Thread):
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
     #frame = np.random.randint(0,255,(480,640,3))
-    frame = np.zeros((480, 640, 3))
-    command = [0,0]
+    frame = np.zeros((480, 640, 3)) # Static variable containing the currently received frame
+    command = None # Static variable containing the currently sent command
 
     def __init__(self):
         Thread.__init__(self)
@@ -34,8 +39,19 @@ class SocketConnection(Thread) :
     def run(self):
         self.__start_connection()
         while True :
+            #Listen to receive messages
             self.__listen()
+
+            #Write messages if a command needs to be sent
+            if SocketConnection.command is not None:
+                print(SocketConnection.command.get_string_command())
+                self.__client_connection.sendall(SocketConnection.command.get_bytes_command())
+                SocketConnection.command = None
+
             sleep(0.001)
+
+
+
 
     def __start_connection(self) :
         print("Establishing connection...")
@@ -81,6 +97,7 @@ class SocketConnection(Thread) :
             img = np.frombuffer(img_as_byte, dtype = np.uint8).reshape((robot_height, robot_width, 3))
             SocketConnection.frame = img.copy()
 
-    def send_command(self,robot_id,command_id) :
-        print("Sent command " + str(command_id) + " to robot " + str(robot_id))
-        self.__client_connection.sendall(b'\x0a' + bytes([robot_id]) + bytes([command_id]))
+    @staticmethod
+    def send_command(robot_id,command_id):
+        """Tells the thread to send a command by switching the static variable command"""
+        SocketConnection.command = RobotCommand(robot_id,command_id)
