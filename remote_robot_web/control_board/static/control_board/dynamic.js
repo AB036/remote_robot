@@ -16,15 +16,12 @@ var url = "control_board/ajax/move/";
 
 function moveUp() {
     // this function send an AJAX request to move up
-
+    console.log('UP');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'up'},
         success: function(data) {
-
-            console.log('UP');
-
         },
     });
 };
@@ -32,15 +29,12 @@ function moveUp() {
 
 function moveRight() {
     // this function send an AJAX request to move right
-
+    console.log('RIGHT');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'right'},
         success: function(data) {
-
-            console.log('RIGHT');
-
         },
     });
 };
@@ -48,15 +42,12 @@ function moveRight() {
 
 function moveLeft() {
     // this function send an AJAX request to move left
-
+    console.log('LEFT');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'left'},
         success: function(data) {
-
-            console.log('LEFT');
-
         },
     });
 };
@@ -64,34 +55,30 @@ function moveLeft() {
 
 function moveDown() {
     // this function send an AJAX request to move down
-
+    console.log('DOWN');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'down'},
         success: function(data) {
-
-            console.log('DOWN');
-
         },
     });
 };
 
 
 function applyKey(event) {
-    console.log("key detected!");
 
     // if the key is the up arrow key, it moves UP
-    if (event.keyCode == 38 || event.keyCode == 90) {
+    if (event.keyCode == 38) {
         moveUp();
     // if the key is the left arrow key, it moves LEFT
-    } else if (event.keyCode == 37 || event.keyCode == 81) {
+    } else if (event.keyCode == 37) {
         moveLeft();
     // if the key is the right arrow key, it moves RIGHT
-    } else if (event.keyCode == 39 || event.keyCode == 68) {
+    } else if (event.keyCode == 39) {
         moveRight();
     // if the key is the down arrow key, it moves DOWN
-    } else if (event.keyCode == 40 || event.keyCode == 83) {
+    } else if (event.keyCode == 40) {
         moveDown();
     };
 
@@ -107,6 +94,5 @@ function active_video() {
 };
 
 // the document is listening to any key pressed and return applyKey in this case
-console.log("JS functions loaded !");
-document.onkeypress = applyKey;
+document.onkeydown = applyKey;
 
