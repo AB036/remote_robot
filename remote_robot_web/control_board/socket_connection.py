@@ -8,11 +8,23 @@ class SocketReadingException(Exception):
     pass
 
 
+class RobotCommand :
+    """Class representing a command to send to a robot."""
+
+    def __init__(self,robot_id->int,command_id->int):
+        self.__robot_id = robot_id
+        self.__command_id = command_id
+
+    def get_bytes_command(self):
+        """Converts the command into bytes to send with the socket"""
+        return b'\x0a' + bytes([robot_id]) + bytes([command_id])
+
 class SocketConnection(Thread) :
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
     #frame = np.random.randint(0,255,(480,640,3))
     frame = np.zeros((480, 640, 3))
+    command = [0,0]
 
     def __init__(self):
         Thread.__init__(self)
