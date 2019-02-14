@@ -59,6 +59,7 @@ class SocketConnection(Thread):
         port = 12800
 
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.__connection.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.__connection.bind((host, port))
         self.__connection.listen(5)
         self.__client_connection, info = self.__connection.accept()
@@ -94,6 +95,8 @@ class SocketConnection(Thread):
             # Reads data while image is not full
             while len(img_as_byte) < robot_height * robot_width * 3:
                 img_as_byte += self.__client_connection.recv(2**20)
+            if len(img_as_byte) > robot_height * robot_width * 3:
+                img_as_byte = img_as_byte[:(robot_height * robot_width * 3)]
             img = np.frombuffer(img_as_byte, dtype = np.uint8).reshape((robot_height, robot_width, 3))
             SocketConnection.frame = img.copy()
 
