@@ -8,6 +8,12 @@ from .models import Robot
 from control_board.socket_connection import SocketConnection
 
 
+def get_frame(self):
+    ret, image = self.video.read() #R EPLACE BY THE MATRIX RECEIVING CODE
+    ret, jpeg = cv2.imencode('.jpg', image)
+    return jpeg.tobytes()
+
+
 class StreamingVideoView(View):
 
     def get(self, request):

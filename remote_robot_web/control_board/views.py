@@ -8,7 +8,6 @@ from django.template import loader
 
 from control_board.socket_connection import SocketConnection
 
-
 def index(request):
     template = loader.get_template('control_board/index.html')
     return HttpResponse(template.render(request=request))
