@@ -27,7 +27,6 @@ class RobotCommand:
 class SocketConnection(Thread):
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
-    #frame = np.random.randint(0,255,(480,640,3))
     frame = np.zeros((480, 640, 3)) # Static variable containing the currently received frame
     command = None # Static variable containing the currently sent command
 
@@ -107,6 +106,4 @@ class SocketConnection(Thread):
     @staticmethod
     def send_command(robot_id,command_id):
         """Tells the thread to send a command by switching the static variable command"""
-        print(SocketConnection.command)
         SocketConnection.command = RobotCommand(robot_id,command_id)
-        print(SocketConnection.command)
