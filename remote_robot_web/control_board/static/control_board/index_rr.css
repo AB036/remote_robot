@@ -21,3 +21,7 @@
 .button_video {
     margin: 110px;
 }
+
+#chat-message-input {
+    width: 535px;
+}

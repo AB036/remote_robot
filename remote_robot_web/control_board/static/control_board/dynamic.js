@@ -16,15 +16,12 @@ var url = "control_board/ajax/move/";
 
 function moveUp() {
     // this function send an AJAX request to move up
-
+    console.log('UP');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'up'},
         success: function(data) {
-
-            console.log('UP');
-
         },
     });
 };
@@ -32,15 +29,12 @@ function moveUp() {
 
 function moveRight() {
     // this function send an AJAX request to move right
-
+    console.log('RIGHT');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'right'},
         success: function(data) {
-
-            console.log('RIGHT');
-
         },
     });
 };
@@ -48,15 +42,12 @@ function moveRight() {
 
 function moveLeft() {
     // this function send an AJAX request to move left
-
+    console.log('LEFT');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'left'},
         success: function(data) {
-
-            console.log('LEFT');
-
         },
     });
 };
@@ -64,15 +55,12 @@ function moveLeft() {
 
 function moveDown() {
     // this function send an AJAX request to move down
-
+    console.log('DOWN');
     $.ajax({
         url:url,
         type: 'get',
         data: {'direction': 'down'},
         success: function(data) {
-
-            console.log('DOWN');
-
         },
     });
 };
@@ -106,5 +94,5 @@ function active_video() {
 };
 
 // the document is listening to any key pressed and return applyKey in this case
-document.onkeypress = applyKey;
+document.onkeydown = applyKey;
 

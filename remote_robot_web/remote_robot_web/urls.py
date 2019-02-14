@@ -24,6 +24,5 @@ urlpatterns = [
     path('', views.index),
     path('control_board/', include('control_board.urls')),
     path('admin/', admin.site.urls),
-    url(r'^chat/', TemplateView.as_view(template_name="control_board/chat.html"), name='chat'),
     path('robots/', include('robots.urls')),
 ]
