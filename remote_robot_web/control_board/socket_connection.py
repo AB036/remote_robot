@@ -35,20 +35,25 @@ class SocketConnection(Thread):
         Thread.__init__(self)
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__registered_robots = dict() #Dict containing the info of each registered robots (key = id, value = [height,width])
+        self.is_running = True
 
     def run(self):
         self.__start_connection()
-        while True :
-            #Listen to receive messages
-            self.__listen()
-
-            #Write messages if a command needs to be sent
+        while self.is_running :
+            # Write messages if a command needs to be sent
             if SocketConnection.command is not None:
                 print(SocketConnection.command.get_string_command())
                 self.__client_connection.sendall(SocketConnection.command.get_bytes_command())
                 SocketConnection.command = None
 
+            #Listen to receive messages
+            self.__listen()
+
             sleep(0.001)
+
+    def stop(self):
+        self.is_running = False
+        self.__stop_connection()
 
 
 
@@ -59,7 +64,6 @@ class SocketConnection(Thread):
         port = 12800
 
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.__connection.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.__connection.bind((host, port))
         self.__connection.listen(5)
         self.__client_connection, info = self.__connection.accept()
@@ -103,4 +107,6 @@ class SocketConnection(Thread):
     @staticmethod
     def send_command(robot_id,command_id):
         """Tells the thread to send a command by switching the static variable command"""
+        print(SocketConnection.command)
         SocketConnection.command = RobotCommand(robot_id,command_id)
+        print(SocketConnection.command)
