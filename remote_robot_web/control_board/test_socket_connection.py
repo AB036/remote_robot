@@ -9,19 +9,19 @@ class TestSocketConnection(unittest.TestCase):
     """TestCase to test the SocketConnection class"""
 
     def setUp(self):
-        pass
-
-    def connect_to_ros(self):
         self.socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
         self.ros_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def connect_to_ros(self):
         if not self.socket_thread.is_alive():
             self.socket_thread.start()
         self.ros_connection.connect(('localhost', 12800))
         self.ros_connection.send(b'\x19')
 
     def disconnect_from_ros(self):
-        self.socket_thread.stop()
         self.ros_connection.close()
+        self.socket_thread.stop()
+
 
     def test_connection_established(self):
         """The socket can connect"""
