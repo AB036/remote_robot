@@ -22,6 +22,6 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('control_board.urls')),
-    url(r'^chat/', TemplateView.as_view(template_name="control_board/chat.html"), name='chat'),
+    # url(r'^chat/', TemplateView.as_view(template_name="control_board/chat.html"), name='chat'),
     path('robots/', include('robots.urls')),
 ]

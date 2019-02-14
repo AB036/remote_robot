@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound
 from django import forms
 
 from control_board.socket_connection import SocketConnection
@@ -13,10 +13,6 @@ class ChatForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
 
-socket_thread = SocketConnection()  # Creates the socket thread to connect in localhost with ROS
-socket_thread.start()
-
-
 class ControlBoardView(View):
     """View for index page."""
     template_name = 'control_board/index.html'
@@ -25,25 +21,6 @@ class ControlBoardView(View):
     def get(self, request):
         return render(request, self.template_name)
 
-    def post(self, request):
-        if not socket_thread.is_alive():
-            socket_thread.start()
-
-        form = self.form_class(request.POST or None)
-        if form.is_valid():
-            message = form.cleaned_data["message"]
-            html_msg = ""
-            with open('control_board/templates/control_board/chat.html', 'r') as file_chat:
-                for line in file_chat.readlines():
-                    if line.strip() == "</div>":
-                        break
-                    html_msg += line
-
-            html_msg += "<p>{}</p>".format(message) + "\n</div>\n</body>\n</html>"
-            with open('control_board/templates/control_board/chat.html', 'w') as file_chat:
-                file_chat.write(html_msg)
-            return HttpResponse(render(request, self.template_name))
-
 
 def move(request):
     """Gets the given direction and generates JSON response."""
@@ -51,13 +28,13 @@ def move(request):
 
     if direction in ['up', 'down', 'right', 'left']:
         if direction == "up":
-            socket_thread.send_command(0, 0)
+            SocketConnection.send_command(0, 0)
         elif direction == "down":
-            socket_thread.send_command(0, 1)
+            SocketConnection.send_command(0, 1)
         elif direction == "left":
-            socket_thread.send_command(0, 2)
+            SocketConnection.send_command(0, 2)
         elif direction == "right":
-            socket_thread.send_command(0, 3)
+            SocketConnection.send_command(0, 3)
 
         return JsonResponse({'direction': direction})
     else:

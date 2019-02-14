@@ -1,4 +1,2 @@
-django
 numpy
 opencv-python
-channels

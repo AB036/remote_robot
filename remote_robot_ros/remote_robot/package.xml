@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>ros_remote_robot_server</name>
+  <name>remote_robot</name>
   <version>0.0.0</version>
-  <description>The ros_remote_robot_server package</description>
+  <description>The remote_robot package</description>
 
   <maintainer email="armand.bouvier-neveu@student.ecp.fr">armand</maintainer>
 
