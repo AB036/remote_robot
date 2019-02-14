@@ -1,8 +1,10 @@
 import Motor
 import time
 
+
 class Robot:
     """This class controls the motors of the robot in function of the command"""
+
     def __init__(self, left_motor, right_motor, ros_node):
         if not isinstance(left_motor, Motor.Motor):
             raise ValueError("motor should be Motor Objects")
