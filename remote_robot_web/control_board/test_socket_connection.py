@@ -1,9 +1,8 @@
 import unittest
-
 import socket
 
-
 from socket_connection import SocketConnection
+
 
 class TestSocketConnection(unittest.TestCase):
     """TestCase to test the SocketConnection class"""
@@ -22,32 +21,27 @@ class TestSocketConnection(unittest.TestCase):
         self.ros_connection.close()
         self.socket_thread.stop()
 
-
     def test_connection_established(self):
         """The socket can connect"""
         self.connect_to_ros()
         msg = self.ros_connection.recv(1)
-        self.assertEqual(msg,b'\x19')
+        self.assertEqual(msg, b'\x19')
         self.disconnect_from_ros()
 
     def test_command_sent_up(self):
         """The socket can send a up command"""
         self.connect_to_ros()
         msg = self.ros_connection.recv(1)
-        SocketConnection.send_command(0,0)
+        SocketConnection.send_command(0, 0)
         msg = self.ros_connection.recv(3)
-        self.assertEqual(msg,b'\x0a' + b'\x00' + b'\x00')
+        self.assertEqual(msg, b'\x0a' + b'\x00' + b'\x00')
         self.disconnect_from_ros()
 
     def test_command_sent_down(self):
         """The socket can send a down command"""
         self.connect_to_ros()
         msg = self.ros_connection.recv(1)
-        SocketConnection.send_command(0,1)
+        SocketConnection.send_command(0, 1)
         msg = self.ros_connection.recv(3)
-        self.assertEqual(msg,b'\x0a' + b'\x00' + b'\x01')
+        self.assertEqual(msg, b'\x0a' + b'\x00' + b'\x01')
         self.disconnect_from_ros()
-
-
-
-

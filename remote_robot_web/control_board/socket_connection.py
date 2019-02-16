@@ -9,7 +9,23 @@ class SocketReadingException(Exception):
 
 
 class RobotCommand:
-    """Class representing a command to send to a robot."""
+    """
+    Class representing a command to send to a robot.
+
+    Parameters
+    ----------
+    robot_id : int
+        ID of the robot that send command.
+    command_id : int
+         ID of the move command (ex: 0 for 'up', 1 for 'down'...).
+
+    Attributes
+    ----------
+    __robot_id : int
+        ID of the robot that send command.
+    __command_id : int
+         ID of the move command (ex: 0 for 'up', 1 for 'down'...).
+    """
 
     def __init__(self, robot_id, command_id):
         self.__robot_id = robot_id
@@ -25,15 +41,30 @@ class RobotCommand:
 
 
 class SocketConnection(Thread):
-    """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
+    """
+    Thread managing the local connection (with sockets) with ROS to send commands and receive video.
 
-    frame = np.zeros((480, 640, 3))  # Static variable containing the currently received frame
-    command = None  # Static variable containing the currently sent command
+    Attributes
+    ----------
+    frame : np.array, static
+        Static variable containing the currently received frame.
+    command : RobotCommand, static
+         Static variable containing the currently sent command.
+    __connection : socket
+        Socket to manage the connection.
+    __registered_robots : dict
+        Dict containing the info of each registered robots (key = id, value = [height,width]).
+    is_running : bool
+        Tells whether the socket is currently running.
+    """
+
+    frame = np.zeros((480, 640, 3))
+    command = None
 
     def __init__(self):
         Thread.__init__(self)
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.__registered_robots = dict()  # Dict containing the info of each registered robots (key = id, value = [height,width])
+        self.__registered_robots = dict()
         self.is_running = True
 
     def run(self):
