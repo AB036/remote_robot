@@ -132,8 +132,8 @@ TODO for the other tests
 
 To launch tests to test the socket between the ROS node and the Django server
 
-`cd remote_robot_web/control_board
-python -m unittest`
+```cd remote_robot_web/control_board
+python -m unittest```
 
 ## Contributing
 
