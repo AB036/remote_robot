@@ -128,7 +128,11 @@ Here are the techniques we used to build Remote Robot:
 
 ## Test commands
 
-TODO
+TODO for the other tests
+
+To launch tests to test the socket between the ROS node and the Django server
+`cd remote_robot_web/control_board`
+`python -m unittest`
 
 ## Contributing
 
