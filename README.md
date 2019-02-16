@@ -10,8 +10,7 @@
 ## Contents
 
 - [Install](#install)
-- [Quick start](#quickstart)
-- [Settings](#settings)
+- [User guide](#user-guide)
 - [Features](#features)
 - [Techniques](#techniques)
 - [Test commands](#test-commands)
@@ -25,9 +24,11 @@ Currently, it only works with Linux 16.04. You'll need:
 - Python 2.7 for ROS
 - Install [ROS kinetic](http://wiki.ros.org/kinetic)
 
-## Quickstart
+## User guide
 
 ### Server
+
+#### Web server
 First, prepare the environment of the web server:
 
 ```bash
@@ -45,14 +46,31 @@ python manage.py runserver --noreload
 ```
 The app will be available at http://localhost:8000.
 
-Secondly open a new terminal, prepare the ROS environment and start the ROS Master:
+#### ROS server
+
+Now let's prepare the ROS part of the server. Open a new terminal and prepare the ROS environment:
 ```bash
 mkdir -p ./catkin_ws/src
-mv ros_remote_robot_server/ catkin_ws/src
 cd catkin_ws/
 catkin_make
 source devel/setup.bash
-chmod +x src/ros_remote_robot_server/scripts/ros_server.py
+```
+
+Put the content of `remote_robot_ros/` in  `catkin_ws/src/` and install the libraries:
+```bash
+cd catkin_ws/src/remote_robot/
+pip install -r requirements.txt
+```
+
+Then make the file `ros_server.py` executable with:
+```bash
+cd catkin_ws/src/remote_robot/scripts/
+chmod +x ros_server.py
+```
+
+And start the ROS Master:
+```bash
+cd catkin_ws
 catkin_make
 roscore
 ```
@@ -62,19 +80,24 @@ Now open a new terminal and start the ROS node:
 cd catkin_ws/
 catkin_make
 source devel/setup.bash
-rosrun ros_remote_robot_server ros_server.py
+rosrun remote_robot ros_server.py
 ```
 
-Finally, connect your robot to the server (don't forget to check the IP address of the server with `ifconfig`) and start publishing on the node `node_name`.
-
 ### The robot
+#### Connecting the robot
+Just connect your robot to the server by adding the server to the file `/etc/hosts` and configuring the following environment variable:
+```bash
+export ROS_MASTER_URI=http://<ip_server>:<port>
+```
 
-For the development we used a Raspberry with Python 2.7 but you can use whatever architecture you prefer as long as you connect to the proper ROS node.
-Below are the commands to run a robot equipped with a Raspberry.
+Now you can start:
+- Subscribing to commands on the node `commands`
+- Publishing the video stream on the node `video_frame`.
 
-First set the environment variables: in the file `file`, add the line `line`.
+#### Using our package (Raspberry - Python 2.7)
+If you wish to use our package for the robot, you'll need a Raspberry with Python 2.7.
 
-Now prepare the ROS environment:
+Prepare the ROS environment:
 ```bash
 mkdir -p ./catkin_ws/src
 cd catkin_ws/
@@ -82,26 +105,35 @@ catkin_make
 source devel/setup.bash
 ```
 
-Put the content of `rasp/` in  `catkin_ws/src/` then make the file executable with:
+Put the content of `rasp/Code` in  `catkin_ws/src/giopek/` and install the libraries:
 ```bash
-chmod +x src/rasp/scripts/ros_package_raspberry.py
+cd catkin_ws/src/giopek/
+pip install -r requirements.txt
 ```
 
-Connect to the server and launch the node:
+Then make the file `ros_package_raspberry.py` executable with:
 ```bash
-export ROS_MASTER_URI=http://<ip>:<port>
-rosrun rasp ros_package_raspberry.py ########################################### Nom package sur la raspbderry ??
+cd catkin_ws/src/giopek/scripts/
+chmod +x ros_package_raspberry.py
+```
+
+[Connect to the server](#connecting-the-robot) and launch the node:
+```bash
+cd catkin_ws/
+catkin_make
+source devel/setup.bash
+rosrun giopek ros_package_raspberry.py
 ```
 
 ### Virtual robot
-
 If you wish to test the project and you don't have a robot, we built a virtual robot that simulates a real one. You just have to make the file executable and run it
 ```bash
+cd catkin_ws/src/remote_robot/scripts/
+chmod +x virtualbot.py
 cd catkin_ws/
-source devel/setup.bash
-chmod +x src/ros_remote_robot_server/scripts/ros_server.py ######################### Filename ??
 catkin_make
-rosrun ros_remote_robot_server ros_server.py ######################### Filename ??
+source devel/setup.bash
+rosrun ros_remote_robot_server virtualbot.py
 ```
 
 ## Features
@@ -122,20 +154,25 @@ Here are the techniques we used to build Remote Robot:
 - HTML/CSS/JS web development.
 - Embedded programming in Python on Raspberry Pi.
 - Communication with a robot using ROS framework.
-- Compatibility in real time of 2 programs using different version of Python.
-- Integration with third-party libraries.
+- Real time communication of 2 programs using different version of Python with sockets.
 - Collaborative development using GitHub, Pull Requests and Trello.
 
 ## Test commands
 
-TODO for the other tests
+Testing the command management received by Django:
+```bash
+cd remote_robot_web/
+python manage.py test control_board
+```
 
-To launch tests to test the socket between the ROS node and the Django server
 
+Testing the socket communication between the ROS node and the Django server:
 ```bash
 cd remote_robot_web/control_board
 python -m unittest
 ```
+
+...
 
 ## Contributing
 

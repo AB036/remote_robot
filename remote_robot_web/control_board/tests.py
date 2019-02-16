@@ -25,9 +25,3 @@ class ControlBoardViewTests(TestCase):
         response = client.get(reverse('ajax_move'), params)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), params)
-
-    def test_order_socket_has_proper_format(self):
-        """
-        The socket with the order is readable and has the proper format.
-        """
-        return NotImplementedError
