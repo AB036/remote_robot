@@ -41,7 +41,7 @@ python manage.py migrate
 Start the development server:
 
 ```bash
-python manage.py runserver
+python manage.py runserver --noreload
 ```
 The app will be available at http://localhost:8000.
 
