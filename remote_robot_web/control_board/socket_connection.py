@@ -27,7 +27,6 @@ class RobotCommand:
 class SocketConnection(Thread):
     """Thread managing the local connection (with sockets) with ROS to send commands and receive video"""
 
-    # frame = np.random.randint(0,255,(480,640,3))
     frame = np.zeros((480, 640, 3))  # Static variable containing the currently received frame
     command = None  # Static variable containing the currently sent command
 
@@ -35,20 +34,25 @@ class SocketConnection(Thread):
         Thread.__init__(self)
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__registered_robots = dict()  # Dict containing the info of each registered robots (key = id, value = [height,width])
+        self.is_running = True
 
     def run(self):
         self.__start_connection()
-        while True:
-            # Listen to receive messages
-            self.__listen()
-
+        while self.is_running:
             # Write messages if a command needs to be sent
             if SocketConnection.command is not None:
                 print(SocketConnection.command.get_string_command())
                 self.__client_connection.sendall(SocketConnection.command.get_bytes_command())
                 SocketConnection.command = None
 
+            # Listen to receive messages
+            self.__listen()
+
             sleep(0.001)
+
+    def stop(self):
+        self.is_running = False
+        self.__stop_connection()
 
     def __start_connection(self):
         print("Establishing connection...")
@@ -56,7 +60,6 @@ class SocketConnection(Thread):
         port = 12800
 
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.__connection.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.__connection.bind((host, port))
         self.__connection.listen(5)
         self.__client_connection, info = self.__connection.accept()
@@ -75,7 +78,6 @@ class SocketConnection(Thread):
     def __listen(self):
         """Listen to the messages sent by ROS"""
         header = self.__client_connection.recv(1)  # Read the first byte to get the type of the request
-        # print(header)
 
         if header == b'\x01':  # If received a new robot message
             new_robot_id = self.__client_connection.recv(1)[0]
