@@ -66,14 +66,15 @@ class SocketConnection(Thread):
         self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__registered_robots = dict()
         self.is_running = True
+        self.daemon = True  # Kill thread when using CTRL + C
 
     def run(self):
         """Starts the thread by connecting the socket"""
         self.__start_connection()
+        sleep(0.001)
         while self.is_running:
             # Write messages if a command needs to be sent
             if SocketConnection.command is not None:
-                print(SocketConnection.command.get_string_command())
                 self.__client_connection.sendall(SocketConnection.command.get_bytes_command())
                 SocketConnection.command = None
 
@@ -81,6 +82,7 @@ class SocketConnection(Thread):
             self.__listen()
 
             sleep(0.001)
+        self.stop()
 
     def stop(self):
         """Stops the thread"""
@@ -101,10 +103,9 @@ class SocketConnection(Thread):
 
         # Check if the ROS node sent a reply
         received_msg = self.__client_connection.recv(1)
-        print(received_msg)
         if received_msg == b'\x19':  # If received a reply from the client after establishing connection
             print("Local connection established")
-            self.__client_connection.send(b'\x19') #Send this message to confirm the connection
+            self.__client_connection.send(b'\x19')  # Send this message to confirm the connection
 
     def __stop_connection(self):
         """Stop the connection by closing all the sockets"""
@@ -125,9 +126,10 @@ class SocketConnection(Thread):
                 new_robot_width))
 
         elif header == b'\x02':  # If received a video frame message
-            robot_id = int.from_bytes(self.__client_connection.recv(1), byteorder="big") # Gets the robot id
-            robot_height, robot_width = self.__registered_robots[robot_id] # Gets the height and the width corresponding
-                                                                           # to the robot id
+            robot_id = int.from_bytes(self.__client_connection.recv(1), byteorder="big")  # Gets the robot id
+            robot_height, robot_width = self.__registered_robots[
+                robot_id]  # Gets the height and the width corresponding
+            # to the robot id
 
             img_as_byte = b''
             # Reads data while image is not full
@@ -136,7 +138,10 @@ class SocketConnection(Thread):
             if len(img_as_byte) > robot_height * robot_width * 3:
                 img_as_byte = img_as_byte[:(robot_height * robot_width * 3)]
             img = np.frombuffer(img_as_byte, dtype=np.uint8).reshape((robot_height, robot_width, 3))
-            SocketConnection.frame = img.copy() # Modifies the static variable so that it can be read by other views
+            SocketConnection.frame = img.copy()  # Modifies the static variable so that it can be read by other views
+
+        elif header == b'\x03':
+            self.stop()
 
     @staticmethod
     def send_command(robot_id, command_id):
