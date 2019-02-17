@@ -21,7 +21,7 @@ def ros_server():
 	rospy.init_node('ros_server')
 	pub = rospy.Publisher('commands', String, queue_size=10)
 	robot0 = RobotComm(0, pub, local_comm, 640, 480)
-	local_comm.add_robot(0, 640, 480)
+	local_comm.add_robot(0, robot0, 640, 480)
 	
 	print("robot0 initialized")
 
