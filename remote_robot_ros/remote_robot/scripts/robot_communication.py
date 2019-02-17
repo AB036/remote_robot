@@ -6,10 +6,21 @@ import time
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import CompressedImage
+
 import cv2
 import cv_bridge
 
 class RobotComm:
+	"""
+	This class is used to communicate with a robot via ROS
+	It could be used to control multiple robots
+	
+	Arguments:
+		- robot_id (int): an id representing the robot
+		- ros_publisher: a rospy publisher object used to send commands to the robot. Should be created before instanciating a RobotComm.
+		- local_comm: the LocalComm object used to interface with the webserver
+		- video_width, video_heigth (int): size of the videostream received from the robot (ex: 640x480)
+	"""
 	def __init__(self, robot_id, ros_publisher, local_comm, video_width, video_heigth):
 		if type(robot_id) != int:
 			raise TypeError('robot_id should be an int')
@@ -26,6 +37,7 @@ class RobotComm:
 		self.__h = video_heigth
 		
 	def __video_callback(self, data):
+		# Triggered when a frame is received from the robot
 		try:
 			cv_image = self.__bridge.compressed_imgmsg_to_cv2(data, "bgr8")
 			self.__comm.send_video_frame(self.__robot_id, cv_image)
