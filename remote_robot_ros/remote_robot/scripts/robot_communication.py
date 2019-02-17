@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import numpy as np
-import time
 
 import rospy
 from std_msgs.msg import String
@@ -41,7 +40,6 @@ class RobotComm:
 		try:
 			cv_image = self.__bridge.compressed_imgmsg_to_cv2(data, "bgr8")
 			self.__comm.send_video_frame(self.__robot_id, cv_image)
-			#print(time.time())
 		except cv_bridge.CvBridgeError as e:
 			print(e)
 		
