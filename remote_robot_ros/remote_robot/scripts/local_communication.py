@@ -65,7 +65,7 @@ class LocalComm(threading.Thread):
 		# Triggered when a command is received from the webserver
 		robot_id = ord(data[1])
 		cmd_code = ord(data[2])
-		if cmd_code in (0,1,2,3) and robot_id in self.__robots:
+		if cmd_code in (0,1,2,3,4) and robot_id in self.__robots:
 			c = {0:'up', 1:'down', 2:'left', 3:'right', 4:'stop'}[cmd_code]
 			self.__robots[robot_id].send_command(c)
 		
