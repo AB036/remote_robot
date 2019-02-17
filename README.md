@@ -19,12 +19,20 @@
 
 ## Install
 
-Currently, it only works with Linux 16.04. You'll need:
+You'll need:
 - Python 3.6+ for the webserver
 - Python 2.7 for ROS
 - Install [ROS kinetic](http://wiki.ros.org/kinetic)
 
-## User guide
+ROS runs on GNU/Linux, but other systems may be supported (more info [here](http://wiki.ros.org/kinetic)). We recommend using the Ubuntu 16.04 (Xenial) release.
+
+
+To download the project, you can use git
+```bash
+git clone https://github.com/AB036/remote_robot
+```
+or download it from Github.
+
 
 ### Server
 
@@ -36,33 +44,22 @@ cd remote_robot_web
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python manage.py migrate
-```
-
-Start the development server:
-
-```bash
-python manage.py runserver
-```
-The app will be available at http://localhost:8000.
-
-By default, the thread to manage local communication between the web server and the ROS part won't start in development. To activate it, use:
-
-```bash
-python manage.py runserver --noreload
+python3 manage.py migrate
 ```
 
 #### ROS server
 
 Now let's prepare the ROS part of the server. Open a new terminal and prepare the ROS environment:
 ```bash
-mkdir -p ./catkin_ws/src
+mkdir -p ~/catkin_ws/src
 cd catkin_ws/
 catkin_make
 source devel/setup.bash
 ```
+The path of your catkin workspace might change depending on your ROS installation.
 
-Put the content of `remote_robot_ros/` in  `catkin_ws/src/` and install the libraries:
+
+Put the content of `remote_robot_ros/` into  `catkin_ws/src/` and install the libraries:
 ```bash
 cd catkin_ws/src/remote_robot/
 pip install -r requirements.txt
@@ -74,18 +71,41 @@ cd catkin_ws/src/remote_robot/scripts/
 chmod +x ros_server.py
 ```
 
-And start the ROS Master:
+Launch catkin_make from your catkin workspace.
 ```bash
-cd catkin_ws
+cd ~/catkin_ws
 catkin_make
+```
+
+
+## User guide
+
+### Server
+
+#### Web server
+
+Open a new terminal and cd into the project. Start the development server:
+
+```bash
+cd remote_robot_web
+python3 manage.py runserver --noreload
+```
+The app will be available at http://127.0.0.1:8000.
+
+
+#### ROS server
+
+Open a new terminal and start the ROS core:
+```bash
+source ~/catkin_ws/devel/setup.bash
 roscore
 ```
+Once again, the path of your catkin workspace might change depending on your ROS installation.
+
 
 Now open a new terminal and start the ROS node:
 ```bash
-cd catkin_ws/
-catkin_make
-source devel/setup.bash
+source ~/catkin_ws/devel/setup.bash
 rosrun remote_robot ros_server.py
 ```
 
