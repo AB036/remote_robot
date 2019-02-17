@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'channels',
-    'control_board',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'robots.apps.RobotsConfig',
+    'control_board.apps.ControlBoardConfig'
 ]
 
 MIDDLEWARE = [

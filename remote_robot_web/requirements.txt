@@ -1,4 +1,5 @@
 django
 numpy
 opencv-python
+pypiwin32
 channels
