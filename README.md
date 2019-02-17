@@ -46,6 +46,12 @@ python manage.py runserver --noreload
 ```
 The app will be available at http://localhost:8000.
 
+By default, the thread to manage local communication between the web server and the ROS part won't start in development. To activate it, use:
+
+```bash
+python manage.py runserver --noreload
+```
+
 #### ROS server
 
 Now let's prepare the ROS part of the server. Open a new terminal and prepare the ROS environment:
@@ -159,17 +165,10 @@ Here are the techniques we used to build Remote Robot:
 
 ## Test commands
 
-Testing the command management received by Django:
+Testing the command management received by Django and the socket communication between the ROS node and the Django server:
 ```bash
 cd remote_robot_web/
 python manage.py test control_board
-```
-
-
-Testing the socket communication between the ROS node and the Django server:
-```bash
-cd remote_robot_web/control_board
-python -m unittest
 ```
 
 ...
