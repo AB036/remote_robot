@@ -84,14 +84,19 @@ catkin_make
 
 #### Web server
 
-Open a new terminal and cd into the project. Start the development server:
+Open a new terminal and cd into the project. Start the development server:	
 
-```bash
+ ```bash
 cd remote_robot_web
-python3 manage.py runserver --noreload
+python manage.py runserver	
 ```
-The app will be available at http://127.0.0.1:8000.
+The app will be available at http://localhost:8000.	
 
+ By default, the thread to manage local communication between the web server and the ROS part won't start in development. To activate it, use:	
+
+ ```bash
+python manage.py runserver --noreload	
+```
 
 #### ROS server
 
