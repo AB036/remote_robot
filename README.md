@@ -202,7 +202,7 @@ To test the ROS server part, use the `test.py` script.
 You need to make it executable first (the exact path depends on your installation)
 ```bash
 cd catkin_ws/src/remote_robot/scripts/
-chmod +x ros_server.py
+chmod +x test.py
 ```
 
 Then run the test script and the ros_server script in two different terminals
